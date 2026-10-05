@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DedSec // NetHack_OS</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- BOOT SCREEN -->
+  <div id="boot" class="screen">
+    <pre id="boot-log" class="boot-log"></pre>
+  </div>
+
+  <!-- LOGIN SCREEN -->
+  <div id="login" class="screen hidden">
+    <div class="login-box glitch-border">
+      <pre id="login-logo" class="logo"></pre>
+      <div class="login-tag">// WE ARE DEDSEC. WE ARE LEGION. //</div>
+      <div class="login-field">
+        <span class="prompt-sym">handle&gt;</span>
+        <input id="login-handle" autocomplete="off" spellcheck="false" placeholder="choose your handle" maxlength="16">
+      </div>
+      <div class="login-hint">[ENTER] to jack in · new recruits welcome</div>
+    </div>
+  </div>
+
+  <!-- DESKTOP / OS -->
+  <div id="os" class="screen hidden">
+    <div class="topbar">
+      <span class="tb-logo">DedSec//NetHack_OS</span>
+      <span class="tb-sep">|</span>
+      <span class="tb-item" data-app="terminal">[ terminal ]</span>
+      <span class="tb-item" data-app="ctos">[ ctOS_scanner ]</span>
+      <span class="tb-item" data-app="profiler">[ profiler ]</span>
+      <span class="tb-item" data-app="missions">[ ops ]</span>
+      <span class="tb-item" data-app="editor">[ exposé_studio ]</span>
+      <span class="tb-right">
+        <span id="tb-rep">REP: 0</span>
+        <span class="tb-sep">|</span>
+        <span id="tb-clock">00:00:00</span>
+      </span>
+    </div>
+
+    <div class="workspace">
+      <!-- TERMINAL APP -->
+      <div id="app-terminal" class="app active">
+        <div id="term-output" class="term-output"></div>
+        <div class="term-inputline">
+          <span id="term-prompt" class="term-prompt"></span>
+          <input id="term-input" autocomplete="off" spellcheck="false" autofocus>
+        </div>
+      </div>
+
+      <!-- CTOS SCANNER APP -->
+      <div id="app-ctos" class="app">
+        <div class="panel-head">ctOS 3.0 // CITY SURVEILLANCE GRID — UNAUTHORIZED ACCESS</div>
+        <div id="ctos-grid" class="ctos-grid"></div>
+        <div id="ctos-detail" class="ctos-detail">// select a node to intercept its datastream</div>
+      </div>
+
+      <!-- PROFILER APP -->
+      <div id="app-profiler" class="app">
+        <div class="panel-head">PROFILER // real-time pedestrian data-mining</div>
+        <div id="profiler-feed" class="profiler-feed"></div>
+      </div>
+
+      <!-- MISSIONS APP -->
+      <div id="app-missions" class="app">
+        <div class="panel-head">DEDSEC OPS // active operations</div>
+        <div id="missions-list" class="missions-list"></div>
+      </div>
+
+      <!-- EDITOR / EXPOSE STUDIO -->
+      <div id="app-editor" class="app">
+        <div class="panel-head">EXPOSÉ STUDIO // assemble the leak that wakes the city</div>
+        <div class="editor-wrap">
+          <div class="editor-evidence">
+            <div class="ee-title">// EVIDENCE LOCKER</div>
+            <div id="evidence-pool" class="evidence-pool"></div>
+          </div>
+          <div class="editor-timeline">
+            <div class="ee-title">// TIMELINE (drag evidence here)</div>
+            <div id="timeline" class="timeline"></div>
+            <button id="render-btn" class="render-btn">▶ RENDER &amp; BROADCAST EXPOSÉ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <span id="sb-user"></span>
+      <span id="sb-msg">// system nominal</span>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay hidden"><div id="overlay-content"></div></div>
+
+  <script src="js/fs.js"></script>
+  <script src="js/missions.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/commands.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/boot.js"></script>
+</body>
+</html>
