@@ -7,13 +7,36 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="shard-top"></div>
+
+  <!-- shared halftone-skull artwork, referenced everywhere via <use> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <pattern id="ht-cyan" width="6" height="6" patternUnits="userSpaceOnUse">
+        <circle cx="3" cy="3" r="2.1" fill="#2fe8ff"/>
+      </pattern>
+      <pattern id="ht-mag" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="translate(3,2)">
+        <circle cx="3" cy="3" r="2.1" fill="#ff2f92"/>
+      </pattern>
+      <path id="dedsec-skull-path" fill-rule="evenodd" d="M100,8 C145,8 172,45 172,90 C172,122 160,140 152,158 C150,163 150,168 150,172 L148,196 C148,205 140,210 130,210 L130,198 L118,198 L118,210 L108,210 L108,198 L96,198 L96,210 L86,210 L86,198 L74,198 L74,210 L66,210 C56,210 48,205 48,196 L46,172 C46,168 46,163 44,158 C36,140 24,122 24,90 C24,45 51,8 100,8 Z M72,78 C86,70 94,80 94,96 C94,114 84,124 72,118 C60,112 58,94 62,84 C64,80 68,78 72,78 Z M128,78 C114,70 106,80 106,96 C106,114 116,124 128,118 C140,112 142,94 138,84 C136,80 132,78 128,78 Z M100,100 L90,124 L110,124 Z"/>
+    </defs>
+  </svg>
+
   <!-- BOOT SCREEN -->
   <div id="boot" class="screen">
+    <svg class="skull-bg skull-boot" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
+      <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
+      <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
+    </svg>
     <pre id="boot-log" class="boot-log"></pre>
   </div>
 
   <!-- LOGIN SCREEN -->
   <div id="login" class="screen hidden">
+    <svg class="skull-bg skull-login" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
+      <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
+      <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
+    </svg>
     <div class="login-box glitch-border">
       <pre id="login-logo" class="logo"></pre>
       <div class="login-tag">// WE ARE DEDSEC. WE ARE LEGION. //</div>
@@ -28,7 +51,13 @@
   <!-- DESKTOP / OS -->
   <div id="os" class="screen hidden">
     <div class="topbar">
-      <span class="tb-logo">DedSec//NetHack_OS</span>
+      <span class="tb-logo">
+        <svg class="tb-skull" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
+          <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
+          <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
+        </svg>
+        DedSec//NetHack_OS
+      </span>
       <span class="tb-sep">|</span>
       <span class="tb-item" data-app="terminal">[ terminal ]</span>
       <span class="tb-item" data-app="ctos">[ ctOS_scanner ]</span>
@@ -94,7 +123,15 @@
     </div>
   </div>
 
-  <div id="overlay" class="overlay hidden"><div id="overlay-content"></div></div>
+  <div id="overlay" class="overlay hidden">
+    <svg class="skull-bg skull-overlay" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
+      <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
+      <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
+    </svg>
+    <div id="overlay-content"></div>
+  </div>
+
+  <audio id="expose-audio" src="Sound/dedsec.mp3" preload="none"></audio>
 
   <script src="js/fs.js"></script>
   <script src="js/missions.js"></script>

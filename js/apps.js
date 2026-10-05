@@ -243,6 +243,13 @@ Welcome to DedSec, ${STATE.handle}. This was only op one."
 <span class="c-cyan">[ click anywhere to close · keep playing / explore the filesystem ]</span>`;
     ov.classList.remove("hidden");
     window.GAME.addRep(500);
-    ov.onclick=()=>ov.classList.add("hidden");
+    const audio=document.getElementById("expose-audio");
+    audio.currentTime=0;
+    audio.play().catch(()=>{});
+    ov.onclick=()=>{
+      ov.classList.add("hidden");
+      audio.pause();
+      audio.currentTime=0;
+    };
   };
 })();
