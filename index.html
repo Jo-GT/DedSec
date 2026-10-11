@@ -9,7 +9,7 @@
 <body>
   <div class="shard-top"></div>
 
-  <!-- shared halftone-skull artwork, referenced everywhere via <use> -->
+  <!-- shared halftone artwork, referenced everywhere via <use> -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <pattern id="ht-cyan" width="6" height="6" patternUnits="userSpaceOnUse">
@@ -18,25 +18,66 @@
       <pattern id="ht-mag" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="translate(3,2)">
         <circle cx="3" cy="3" r="2.1" fill="#ff2f92"/>
       </pattern>
-      <path id="dedsec-skull-path" fill-rule="evenodd" d="M100,8 C145,8 172,45 172,90 C172,122 160,140 152,158 C150,163 150,168 150,172 L148,196 C148,205 140,210 130,210 L130,198 L118,198 L118,210 L108,210 L108,198 L96,198 L96,210 L86,210 L86,198 L74,198 L74,210 L66,210 C56,210 48,205 48,196 L46,172 C46,168 46,163 44,158 C36,140 24,122 24,90 C24,45 51,8 100,8 Z M72,78 C86,70 94,80 94,96 C94,114 84,124 72,118 C60,112 58,94 62,84 C64,80 68,78 72,78 Z M128,78 C114,70 106,80 106,96 C106,114 116,124 128,118 C140,112 142,94 138,84 C136,80 132,78 128,78 Z M100,100 L90,124 L110,124 Z"/>
+      <pattern id="ht-hood" width="11" height="11" patternUnits="userSpaceOnUse">
+        <circle cx="5.5" cy="5.5" r="4" fill="#3a1360"/>
+      </pattern>
+      <pattern id="ht-hood-lt" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="translate(5,4)">
+        <circle cx="5.5" cy="5.5" r="3.6" fill="#9b2fe0"/>
+      </pattern>
+
+      <!-- classic blocky/ASCII-style skull, built from a pixel grid (120x140, 10px cells) -->
+      <g id="dedsec-skull-path">
+        <rect x="20" y="0" width="80" height="10"/>
+        <rect x="10" y="10" width="100" height="10"/>
+        <rect x="0" y="20" width="120" height="10"/>
+        <rect x="0" y="30" width="120" height="10"/>
+        <rect x="0" y="40" width="120" height="10"/>
+        <rect x="0" y="50" width="20" height="10"/><rect x="40" y="50" width="40" height="10"/><rect x="100" y="50" width="20" height="10"/>
+        <rect x="0" y="60" width="20" height="10"/><rect x="40" y="60" width="40" height="10"/><rect x="100" y="60" width="20" height="10"/>
+        <rect x="0" y="70" width="20" height="10"/><rect x="40" y="70" width="40" height="10"/><rect x="100" y="70" width="20" height="10"/>
+        <rect x="0" y="80" width="50" height="10"/><rect x="70" y="80" width="50" height="10"/>
+        <rect x="0" y="90" width="40" height="10"/><rect x="80" y="90" width="40" height="10"/>
+        <rect x="0" y="100" width="120" height="10"/>
+        <rect x="10" y="110" width="100" height="10"/>
+        <rect x="10" y="120" width="10" height="10"/><rect x="30" y="120" width="20" height="10"/><rect x="70" y="120" width="20" height="10"/><rect x="100" y="120" width="10" height="10"/>
+        <rect x="20" y="130" width="10" height="10"/><rect x="40" y="130" width="10" height="10"/><rect x="70" y="130" width="10" height="10"/><rect x="90" y="130" width="10" height="10"/>
+      </g>
+
+      <!-- hooded-figure silhouette: cloak behind, dark hood interior, duotone skull inset -->
+      <path id="dedsec-hood-path" d="M150,15 C170,15 185,35 190,55 C230,70 265,110 275,170 C285,230 280,290 270,340 C268,352 258,360 246,360 L54,360 C42,360 32,352 30,340 C20,290 15,230 25,170 C35,110 70,70 110,55 C115,35 130,15 150,15 Z"/>
+      <path id="dedsec-hood-inner" d="M150,70 C185,70 210,100 210,150 C210,210 185,245 150,245 C115,245 90,210 90,150 C90,100 115,70 150,70 Z"/>
+      <g id="dedsec-hood-figure">
+        <use href="#dedsec-hood-path" fill="url(#ht-hood)"/>
+        <use href="#dedsec-hood-path" fill="url(#ht-hood-lt)" x="4" y="3" style="mix-blend-mode:screen"/>
+        <use href="#dedsec-hood-inner" fill="#050308"/>
+        <use href="#dedsec-skull-path" fill="url(#ht-cyan)" transform="translate(105,98) scale(.75)"/>
+        <use href="#dedsec-skull-path" fill="url(#ht-mag)" transform="translate(108,100) scale(.75)" style="mix-blend-mode:screen"/>
+      </g>
+
+      <!-- repeating stamp wallpaper: faint tiled skull + wordmark, like the collage backgrounds -->
+      <pattern id="dedsec-stamp" width="150" height="150" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
+        <use href="#dedsec-skull-path" transform="translate(14,8) scale(.4)" fill="#9b2fe0" opacity=".35"/>
+        <text x="4" y="128" font-family="Anton,Impact,sans-serif" font-size="22" letter-spacing="2" fill="#2fe8ff" opacity=".22">DEDSEC</text>
+      </pattern>
     </defs>
   </svg>
 
   <!-- BOOT SCREEN -->
   <div id="boot" class="screen">
-    <svg class="skull-bg skull-boot" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
-      <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
-      <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
+    <svg class="stamp-wallpaper" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#dedsec-stamp)"/></svg>
+    <svg class="skull-bg skull-boot" viewBox="0 0 300 360" aria-hidden="true" focusable="false">
+      <use href="#dedsec-hood-figure"/>
     </svg>
     <pre id="boot-log" class="boot-log"></pre>
   </div>
 
   <!-- LOGIN SCREEN -->
   <div id="login" class="screen hidden">
-    <svg class="skull-bg skull-login" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
-      <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
-      <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
+    <svg class="stamp-wallpaper" aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#dedsec-stamp)"/></svg>
+    <svg class="skull-bg skull-login" viewBox="0 0 300 360" aria-hidden="true" focusable="false">
+      <use href="#dedsec-hood-figure"/>
     </svg>
+    <div class="comic-burst burst-login" aria-hidden="true"><span>SYSTEM<br>COMPROMISED</span></div>
     <div class="login-box glitch-border">
       <pre id="login-logo" class="logo"></pre>
       <div class="login-tag">// WE ARE DEDSEC. WE ARE LEGION. //</div>
@@ -52,7 +93,7 @@
   <div id="os" class="screen hidden">
     <div class="topbar">
       <span class="tb-logo">
-        <svg class="tb-skull" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
+        <svg class="tb-skull" viewBox="0 0 120 140" aria-hidden="true" focusable="false">
           <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
           <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
         </svg>
@@ -124,10 +165,10 @@
   </div>
 
   <div id="overlay" class="overlay hidden">
-    <svg class="skull-bg skull-overlay" viewBox="0 0 200 220" aria-hidden="true" focusable="false">
-      <use href="#dedsec-skull-path" class="sk-c" fill="url(#ht-cyan)"/>
-      <use href="#dedsec-skull-path" class="sk-m" fill="url(#ht-mag)" x="3" y="2"/>
+    <svg class="skull-bg skull-overlay" viewBox="0 0 300 360" aria-hidden="true" focusable="false">
+      <use href="#dedsec-hood-figure"/>
     </svg>
+    <div class="comic-burst burst-overlay" aria-hidden="true"><span>CITY IS<br>AWAKE</span></div>
     <div id="overlay-content"></div>
   </div>
 
