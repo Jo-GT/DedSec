@@ -373,7 +373,14 @@ ${STATE.handle}. That's a statement."
       ov.classList.remove("hidden");
       window.GAME.addRep(800);
       STATE.finished=true;
-      ov.onclick=()=>ov.classList.add("hidden");
+      const audio2=document.getElementById("expose-audio-2");
+      audio2.currentTime=0;
+      audio2.play().catch(()=>{});
+      ov.onclick=()=>{
+        ov.classList.add("hidden");
+        audio2.pause();
+        audio2.currentTime=0;
+      };
     }
   };
 })();
