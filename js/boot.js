@@ -39,6 +39,52 @@
     })();
   }
 
+  // reusable chrome for the floating mini-windows: drag-to-move + minimize + optional click action
+  function wireMiniWindow(winId,titleId,toggleId,onClick){
+    const win=document.getElementById(winId);
+    const title=document.getElementById(titleId);
+    const toggle=document.getElementById(toggleId);
+    toggle.addEventListener("click",e=>{
+      e.stopPropagation();
+      win.classList.toggle("collapsed");
+    });
+    let dragging=false, dragged=false, startX=0, startY=0, startLeft=0, startTop=0;
+    title.addEventListener("pointerdown",e=>{
+      if(e.target.closest("button")) return;
+      dragging=true; dragged=false;
+      const rect=win.getBoundingClientRect();
+      startX=e.clientX; startY=e.clientY;
+      startLeft=rect.left; startTop=rect.top;
+      win.style.left=startLeft+"px";
+      win.style.top=startTop+"px";
+      win.style.right="auto";
+      win.style.bottom="auto";
+      title.setPointerCapture(e.pointerId);
+      win.classList.add("dragging");
+    });
+    title.addEventListener("pointermove",e=>{
+      if(!dragging) return;
+      const dx=e.clientX-startX, dy=e.clientY-startY;
+      if(Math.abs(dx)>3||Math.abs(dy)>3) dragged=true;
+      const maxLeft=window.innerWidth-win.offsetWidth;
+      const maxTop=window.innerHeight-win.offsetHeight;
+      win.style.left=Math.min(Math.max(0,startLeft+dx),maxLeft)+"px";
+      win.style.top=Math.min(Math.max(0,startTop+dy),maxTop)+"px";
+    });
+    title.addEventListener("pointerup",e=>{
+      dragging=false;
+      title.releasePointerCapture(e.pointerId);
+      win.classList.remove("dragging");
+    });
+    if(onClick){
+      title.addEventListener("click",e=>{
+        if(e.target.closest("button")) return;
+        if(dragged){ dragged=false; return; }
+        onClick();
+      });
+    }
+  }
+
   function showLogin(){
     document.getElementById("boot").classList.add("hidden");
     const lg=document.getElementById("login");
@@ -63,47 +109,7 @@
       t.onclick=()=>window.Apps.show(t.dataset.app);
     });
     document.getElementById("render-btn").onclick=()=>window.renderExpose();
-    const ow=document.getElementById("objective-widget");
-    const owTitle=document.getElementById("ow-title");
-    document.getElementById("ow-toggle").addEventListener("click",e=>{
-      e.stopPropagation();
-      ow.classList.toggle("collapsed");
-    });
-
-    // draggable title bar — classic movable mini-window
-    let dragging=false, dragged=false, startX=0, startY=0, startLeft=0, startTop=0;
-    owTitle.addEventListener("pointerdown",e=>{
-      if(e.target.closest(".ow-toggle")) return;
-      dragging=true; dragged=false;
-      const rect=ow.getBoundingClientRect();
-      startX=e.clientX; startY=e.clientY;
-      startLeft=rect.left; startTop=rect.top;
-      ow.style.left=startLeft+"px";
-      ow.style.top=startTop+"px";
-      ow.style.right="auto";
-      ow.style.bottom="auto";
-      owTitle.setPointerCapture(e.pointerId);
-      ow.classList.add("dragging");
-    });
-    owTitle.addEventListener("pointermove",e=>{
-      if(!dragging) return;
-      const dx=e.clientX-startX, dy=e.clientY-startY;
-      if(Math.abs(dx)>3||Math.abs(dy)>3) dragged=true;
-      const maxLeft=window.innerWidth-ow.offsetWidth;
-      const maxTop=window.innerHeight-ow.offsetHeight;
-      ow.style.left=Math.min(Math.max(0,startLeft+dx),maxLeft)+"px";
-      ow.style.top=Math.min(Math.max(0,startTop+dy),maxTop)+"px";
-    });
-    owTitle.addEventListener("pointerup",e=>{
-      dragging=false;
-      owTitle.releasePointerCapture(e.pointerId);
-      ow.classList.remove("dragging");
-    });
-    owTitle.addEventListener("click",e=>{
-      if(e.target.closest(".ow-toggle")) return;
-      if(dragged){ dragged=false; return; }
-      window.Apps.show("missions");
-    });
+    wireMiniWindow("objective-widget","ow-title","ow-toggle",()=>window.Apps.show("missions"));
     document.getElementById("tb-rep").textContent="REP: 0";
     window.initTerminal();
     window.Apps.renderMissions();
@@ -122,6 +128,7 @@
   }
 
   window.addEventListener("DOMContentLoaded",()=>{
+    wireMiniWindow("music-widget","music-title","music-toggle",null);
     typeBoot(showLogin);
   });
 })();

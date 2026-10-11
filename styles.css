@@ -236,13 +236,36 @@ body::after{
 .ow-step{color:var(--fg);line-height:1.4}
 .ow-done{color:var(--muted);font-size:11px;margin-top:2px}
 
+/* uploaded gif/asset placements */
+.boot-art{
+  display:block;max-width:200px;margin:30px auto 0;position:relative;z-index:1;
+  border-radius:6px;filter:drop-shadow(0 0 20px rgba(198,255,58,.3));
+}
+.login-hero{
+  display:block;width:100%;border-radius:4px;margin-bottom:14px;border:1px solid var(--purple-dim);
+}
+.login-accent{
+  position:absolute;left:4%;bottom:5%;width:130px;border-radius:8px;opacity:.9;z-index:1;
+  box-shadow:0 0 20px rgba(0,0,0,.6);filter:drop-shadow(0 0 14px rgba(198,255,58,.3));
+}
+.app-thumb{
+  display:block;width:160px;max-width:40%;margin:0 0 10px;border-radius:4px;
+  border:1px solid var(--line);opacity:.92;box-shadow:0 0 16px rgba(0,0,0,.5);
+}
+
 /* statusbar */
 .statusbar{display:flex;gap:16px;padding:5px 12px;background:var(--ink);border-top:1px solid var(--line);font-size:12px}
 #sb-user{color:var(--green)}
 #sb-msg{color:var(--muted)}
 
 /* overlay */
-.overlay{position:fixed;inset:0;z-index:5000;background:rgba(4,1,9,.94);display:flex;align-items:center;justify-content:center;padding:30px}
+.overlay{
+  position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;padding:30px;
+  background:
+    linear-gradient(rgba(4,1,9,.88),rgba(4,1,9,.88)),
+    url("GIFs-Assets/dedsecfranken.png") center/cover no-repeat,
+    rgba(4,1,9,.94);
+}
 #overlay-content{
   max-width:760px;width:100%;border:2px solid var(--magenta);background:var(--bg2);padding:30px;
   box-shadow:8px 8px 0 var(--purple-dim),0 0 40px rgba(255,47,146,.3);
@@ -293,6 +316,10 @@ body::after{
   font-size:16px;line-height:1.15;letter-spacing:.5px;padding:16px;pointer-events:none;
 }
 .comic-burst::before{content:"";position:absolute;inset:-7px;background:var(--ink);clip-path:inherit;z-index:-1}
+.music-widget{left:16px;right:auto;bottom:38px;width:300px}
+.music-body{padding:8px}
+.music-body iframe{display:block;border-radius:4px;width:100%}
+
 .burst-login{top:6%;right:4%;transform:rotate(-7deg)}
 .burst-overlay{top:-22px;left:-16px;transform:rotate(-9deg);width:140px;height:108px;font-size:13px}
 

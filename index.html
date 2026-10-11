@@ -9,6 +9,20 @@
 <body>
   <div class="shard-top"></div>
 
+  <!-- FLOATING MINI-WINDOW: background music, visible across boot/login/OS -->
+  <div id="music-widget" class="objective-widget music-widget">
+    <div class="ow-title" id="music-title" title="drag to move">
+      <span class="ow-dot"></span>
+      <span class="ow-name">// SIGNAL_FEED</span>
+      <button id="music-toggle" class="ow-toggle" title="minimize">_</button>
+    </div>
+    <div id="music-body" class="ow-body music-body">
+      <iframe src="https://open.spotify.com/embed/playlist/7MaYipYx1Vsgap7CMTBXCu?utm_source=generator&theme=0"
+        width="100%" height="152" frameborder="0" loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
+  </div>
+
   <!-- shared halftone artwork, referenced everywhere via <use> -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
@@ -68,6 +82,7 @@
     <svg class="skull-bg skull-boot" viewBox="0 0 300 360" aria-hidden="true" focusable="false">
       <use href="#dedsec-hood-figure"/>
     </svg>
+    <img class="boot-art" src="GIFs-Assets/dedskullspin.gif" alt="">
     <pre id="boot-log" class="boot-log"></pre>
   </div>
 
@@ -78,7 +93,9 @@
       <use href="#dedsec-hood-figure"/>
     </svg>
     <div class="comic-burst burst-login" aria-hidden="true"><span>SYSTEM<br>COMPROMISED</span></div>
+    <img class="login-accent" src="GIFs-Assets/dedsecjoinus.gif" alt="">
     <div class="login-box glitch-border">
+      <img class="login-hero" src="GIFs-Assets/dedseclogoloadupremenu.gif" alt="DedSec">
       <pre id="login-logo" class="logo"></pre>
       <div class="login-tag">// WE ARE DEDSEC. WE ARE LEGION. //</div>
       <div class="login-field">
@@ -135,6 +152,7 @@
 
       <!-- CTOS SCANNER APP -->
       <div id="app-ctos" class="app">
+        <img class="app-thumb" src="GIFs-Assets/dedsec takeover.gif" alt="">
         <div class="panel-head">ctOS 3.0 // CITY SURVEILLANCE GRID — UNAUTHORIZED ACCESS</div>
         <div id="ctos-grid" class="ctos-grid"></div>
         <div id="ctos-detail" class="ctos-detail">// select a node to intercept its datastream</div>
@@ -149,6 +167,7 @@
 
       <!-- PROFILER APP -->
       <div id="app-profiler" class="app">
+        <img class="app-thumb" src="GIFs-Assets/dedsecphoneclick.gif" alt="">
         <div class="panel-head">PROFILER // real-time pedestrian data-mining</div>
         <div id="profiler-feed" class="profiler-feed"></div>
       </div>
@@ -161,6 +180,7 @@
 
       <!-- EDITOR / EXPOSE STUDIO -->
       <div id="app-editor" class="app">
+        <img class="app-thumb" src="GIFs-Assets/exposespeaker.gif" alt="">
         <div class="panel-head">EXPOSÉ STUDIO // assemble the leak that wakes the city</div>
         <div class="editor-wrap">
           <div class="editor-evidence">
