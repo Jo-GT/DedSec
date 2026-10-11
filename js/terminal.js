@@ -6,6 +6,38 @@
   const input =()=>document.getElementById("term-input");
   const history=[]; let hIdx=-1;
 
+  // synthesized key-click — a short filtered noise burst, no audio file needed
+  let actx=null;
+  function audioCtx(){
+    if(!actx){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC) return null;
+      actx=new AC();
+    }
+    if(actx.state==="suspended") actx.resume();
+    return actx;
+  }
+  function playKeyClick(hard){
+    const ctx=audioCtx();
+    if(!ctx) return;
+    try{
+      const dur=0.03+Math.random()*0.015;
+      const buf=ctx.createBuffer(1, Math.max(1,Math.floor(ctx.sampleRate*dur)), ctx.sampleRate);
+      const data=buf.getChannelData(0);
+      for(let i=0;i<data.length;i++) data[i]=Math.random()*2-1;
+      const src=ctx.createBufferSource(); src.buffer=buf;
+      const filter=ctx.createBiquadFilter();
+      filter.type="bandpass";
+      filter.frequency.value = hard ? 1100+Math.random()*250 : 2000+Math.random()*700;
+      filter.Q.value=1.1;
+      const gain=ctx.createGain();
+      gain.gain.setValueAtTime(hard?0.2:0.09, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+      src.connect(filter).connect(gain).connect(ctx.destination);
+      src.start();
+    }catch(e){}
+  }
+
   window.termLine=function(text,cls,isHTML){
     const div=document.createElement("div");
     div.className="ln"+(cls?" "+cls:"");
@@ -37,6 +69,9 @@
     termLine("");
     const inp=input();
     inp.addEventListener("keydown",e=>{
+      if(!["Shift","Control","Alt","Meta","CapsLock","Tab"].includes(e.key)){
+        playKeyClick(e.key==="Enter");
+      }
       if(e.key==="Enter"){
         const val=inp.value;
         termLine(document.getElementById("term-prompt").innerHTML+" "+escapeHtml(val),"cmd-echo",true);
