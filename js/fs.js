@@ -110,28 +110,37 @@ Each row: face hash, home cluster, predicted vote, debt score,
     }
     return "/"+stack.join("/");
   }
-  function nodeAt(path){
-    if(path==="/") return tree["/"];
-    const parts = path.split("/").filter(Boolean);
-    let cur = tree["/"];
-    for(const p of parts){
-      if(cur && typeof cur==="object" && !cur.__file && p in cur) cur = cur[p];
-      else return null;
-    }
-    return cur;
-  }
   function isFile(n){ return n && n.__file===true; }
   function isDir(n){ return n && typeof n==="object" && !n.__file; }
 
-  window.FS = {
-    tree, decrypted, normalize, nodeAt, isFile, isDir,
-    read(path){ const n=nodeAt(path); if(isFile(n)) return n.content; return null; },
-    list(path){ const n=nodeAt(path); if(!isDir(n)) return null;
-      return Object.keys(n).map(k=>({name:k, dir:isDir(n[k])})); },
-    applyDecrypt(path){
-      const n = nodeAt(path);
-      if(isFile(n) && decrypted[path]){ n.content = decrypted[path]; return true; }
-      return false;
+  // factory so other filesystems (remote network hosts) can reuse the same engine
+  function makeFS(rootTree, decryptedMap){
+    decryptedMap = decryptedMap || {};
+    function nodeAt(path){
+      if(path==="/") return rootTree["/"] || rootTree;
+      const root = rootTree["/"] || rootTree;
+      const parts = path.split("/").filter(Boolean);
+      let cur = root;
+      for(const p of parts){
+        if(cur && typeof cur==="object" && !cur.__file && p in cur) cur = cur[p];
+        else return null;
+      }
+      return cur;
     }
-  };
+    return {
+      tree: rootTree, decrypted: decryptedMap, isFile, isDir, nodeAt,
+      read(path){ const n=nodeAt(path); if(isFile(n)) return n.content; return null; },
+      list(path){ const n=nodeAt(path); if(!isDir(n)) return null;
+        return Object.keys(n).map(k=>({name:k, dir:isDir(n[k])})); },
+      applyDecrypt(path){
+        const n=nodeAt(path);
+        if(isFile(n) && decryptedMap[path]){ n.content = decryptedMap[path]; return true; }
+        return false;
+      }
+    };
+  }
+
+  const homeFS = makeFS(tree, decrypted);
+
+  window.FS = Object.assign({ normalize, makeFS, F, isFile, isDir }, homeFS);
 })();

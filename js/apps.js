@@ -6,14 +6,32 @@
     handle:"recruit",
     cwd:"/home/dedsec",
     rep:0,
-    evidence:new Set(),          // "blend_memo","nudge_dataset","camera"
+    act:1,                        // 1 = NUDGE exposé, 2 = HIVE network/finale
+    evidence:new Set(),          // "blend_memo","nudge_dataset","camera","exec_roster","backbone_logs","hive_plan"
     opProgress:{},               // opId -> Set of completed stepIds
     hackedNodes:new Set(),
     flaggedCitizen:false,
     timeline:[],
-    finished:false
+    finished:false,
+    net:{
+      currentHost:"home",
+      chain:["home"],            // pivot stack, for disconnect
+      breached:new Set(),
+      scanned:new Set(),
+      tools:new Set(),
+      creds:new Set()
+    }
   };
   window.STATE = STATE;
+
+  const EVIDENCE_ITEMS = [
+    {tag:"blend_memo",   label:"CLIP: Blend board memo — 'stop answering FOIA'", act:1},
+    {tag:"nudge_dataset",label:"CLIP: 14.8M profiles — PROJECT NUDGE dataset",   act:1},
+    {tag:"camera",       label:"CLIP: ctOS camera intercept — faces sold to brokers", act:1},
+    {tag:"exec_roster",  label:"CLIP: Blume exec roster — signing authority on HIVE", act:2},
+    {tag:"backbone_logs",label:"CLIP: camera backbone logs — feeds exported to HIVE nodes", act:2},
+    {tag:"hive_plan",    label:"CLIP: PROJECT HIVE launch order — national rollout", act:2}
+  ];
 
   // ---------- event bus ----------
   const bus = {};
@@ -30,12 +48,13 @@
         }
       }
     },
-    addRep(n){ STATE.rep+=n; document.getElementById("tb-rep").textContent="REP: "+STATE.rep; },
+    addRep(n){ STATE.rep=Math.max(0,STATE.rep+n); document.getElementById("tb-rep").textContent="REP: "+STATE.rep; },
     addEvidence(tag){
       if(!STATE.evidence.has(tag)){
         STATE.evidence.add(tag);
         window.setStatus("// evidence secured: "+tag,"mag");
-        if(STATE.evidence.size>=3) window.GAME.fire("collect");
+        if(["blend_memo","nudge_dataset","camera"].every(t=>STATE.evidence.has(t))) window.GAME.fire("collect");
+        if(["exec_roster","backbone_logs","hive_plan"].every(t=>STATE.evidence.has(t))) window.GAME.fire("collect2");
         Apps.renderEvidence();
       }
     },
@@ -78,6 +97,7 @@
       document.querySelectorAll(".tb-item").forEach(t=>t.classList.toggle("on",t.dataset.app===name));
       this.current=name;
       if(name==="ctos")this.renderCtos();
+      if(name==="network")this.renderNetwork();
       if(name==="profiler")this.renderProfiler();
       if(name==="missions")this.renderMissions();
       if(name==="editor"){this.renderEvidence();this.renderTimeline();}
@@ -111,6 +131,58 @@
         `> intercepting datastream...\n> ${n.data}\n\n`+
         `<span class="c-green">[+15 rep · stream mirrored to evidence locker]</span>`;
       this.renderCtos();
+    },
+
+    renderNetwork(){
+      const graph=document.getElementById("net-graph");
+      if(!graph) return;
+      graph.innerHTML="";
+      const svgNS="http://www.w3.org/2000/svg";
+      const svg=document.createElementNS(svgNS,"svg");
+      svg.setAttribute("class","net-edges");
+      svg.setAttribute("preserveAspectRatio","none");
+      window.NET.EDGES.forEach(([a,b])=>{
+        const pa=window.NET.POS[a], pb=window.NET.POS[b];
+        const line=document.createElementNS(svgNS,"line");
+        line.setAttribute("x1",pa.x+"%"); line.setAttribute("y1",pa.y+"%");
+        line.setAttribute("x2",pb.x+"%"); line.setAttribute("y2",pb.y+"%");
+        const active=STATE.net.breached.has(a)&&STATE.net.breached.has(b);
+        line.setAttribute("class","net-edge"+(active?" active":""));
+        svg.appendChild(line);
+      });
+      graph.appendChild(svg);
+
+      Object.values(window.NET.HOSTS).forEach(h=>{
+        const pos=window.NET.POS[h.id];
+        const breached=STATE.net.breached.has(h.id);
+        const reach=window.NET.reachable(h.id);
+        const here=STATE.net.currentHost===h.id;
+        const known=breached||reach;
+        const node=document.createElement("div");
+        node.className="net-node"+(breached?" breached":reach?" reachable":" locked")+(here?" here":"")+(h.honeypot&&known?" honeypot-known":"");
+        node.style.left=pos.x+"%"; node.style.top=pos.y+"%";
+        node.innerHTML=`<div class="nn-id">${known?h.id:"???"}</div><div class="nn-ip">${known?h.ip:"?.?.?.?"}</div>`;
+        node.onclick=()=>this.showNetDetail(h.id);
+        graph.appendChild(node);
+      });
+    },
+    showNetDetail(id){
+      const h=window.NET.HOSTS[id];
+      const det=document.getElementById("net-detail");
+      const breached=STATE.net.breached.has(id);
+      const reach=window.NET.reachable(id);
+      if(!breached && !reach){
+        det.innerHTML=`<span class="c-red">◉ ${id} // LOCKED</span>\n<span class="c-muted">no route yet — breach a neighboring host first.</span>`;
+        return;
+      }
+      const chk=window.NET.canConnect(id);
+      const actionLine = breached
+        ? `<span class="c-green">[ already breached — \`connect ${id}\` to jump back ]</span>`
+        : chk.ok
+          ? `<span class="c-cyan">[ run: connect ${id} ]</span>`
+          : `<span class="c-red">[ blocked — ${chk.reason} ]</span>`;
+      det.innerHTML=`<span class="c-mag">◉ ${h.name}</span>  <span class="c-muted">${h.ip}</span>\n`+
+        `<span class="c-muted">ports: ${h.ports.join(", ")}</span>\n\n${h.desc}\n\n${actionLine}`;
     },
 
     renderProfiler(){
@@ -185,11 +257,7 @@
 
     renderEvidence(){
       const pool=document.getElementById("evidence-pool"); pool.innerHTML="";
-      const items=[
-        {tag:"blend_memo",label:"CLIP: Blend board memo — 'stop answering FOIA'"},
-        {tag:"nudge_dataset",label:"CLIP: 14.8M profiles — PROJECT NUDGE dataset"},
-        {tag:"camera",label:"CLIP: ctOS camera intercept — faces sold to brokers"}
-      ];
+      const items=EVIDENCE_ITEMS.filter(it=>it.act===STATE.act);
       items.forEach(it=>{
         const have=STATE.evidence.has(it.tag);
         const c=document.createElement("div");
@@ -207,8 +275,8 @@
       const tl=document.getElementById("timeline"); tl.innerHTML="";
       tl.ondragover=e=>e.preventDefault();
       tl.ondrop=e=>{e.preventDefault();const tag=e.dataTransfer.getData("tag");
-        const map={blend_memo:"Blend board memo",nudge_dataset:"PROJECT NUDGE dataset",camera:"ctOS camera intercept"};
-        this.addToTimeline(tag,"CLIP: "+map[tag]);};
+        const item=EVIDENCE_ITEMS.find(it=>it.tag===tag);
+        if(item) this.addToTimeline(tag,item.label);};
       STATE.timeline.forEach((t,i)=>{
         const c=document.createElement("div");
         c.className="clip"; c.textContent=(i+1)+". "+t.label;
@@ -234,17 +302,21 @@
   // ---------- RENDER & BROADCAST ----------
   window.renderExpose=function(){
     const tl=STATE.timeline;
-    if(STATE.evidence.size<3){
-      window.setStatus("// you need all 3 evidence clips before broadcasting","red"); return;
+    const need = STATE.act===1
+      ? ["blend_memo","nudge_dataset","camera"]
+      : ["exec_roster","backbone_logs","hive_plan"];
+    if(!need.every(t=>STATE.evidence.has(t))){
+      window.setStatus("// you need all 3 current evidence clips before broadcasting","red"); return;
     }
-    if(tl.length<3){
-      window.setStatus("// drag all 3 clips onto the timeline first","red"); return;
+    if(tl.length<need.length || !need.every(t=>tl.some(x=>x.tag===t))){
+      window.setStatus("// drag all 3 current clips onto the timeline first","red"); return;
     }
-    window.GAME.fire("render");
-    STATE.finished=true;
+    window.GAME.fire(STATE.act===1?"render":"render2");
     const ov=document.getElementById("overlay");
     const oc=document.getElementById("overlay-content");
-    oc.innerHTML=
+
+    if(STATE.act===1){
+      oc.innerHTML=
 `<div class="c-mag glitch" style="font-size:20px;letter-spacing:3px">▶ BROADCAST LIVE — ctOS COMPROMISED</div>
 
 <span class="c-green">Every smart sign, feed, and phone in the city just lit up with
@@ -261,15 +333,47 @@ Welcome to DedSec, ${STATE.handle}. This was only op one."
   — 0rphan</span>
 
 <span class="c-cyan">[ click anywhere to close · keep playing / explore the filesystem ]</span>`;
-    ov.classList.remove("hidden");
-    window.GAME.addRep(500);
-    const audio=document.getElementById("expose-audio");
-    audio.currentTime=0;
-    audio.play().catch(()=>{});
-    ov.onclick=()=>{
-      ov.classList.add("hidden");
-      audio.pause();
+      ov.classList.remove("hidden");
+      window.GAME.addRep(500);
+      const audio=document.getElementById("expose-audio");
       audio.currentTime=0;
-    };
+      audio.play().catch(()=>{});
+      ov.onclick=()=>{
+        ov.classList.add("hidden");
+        audio.pause();
+        audio.currentTime=0;
+        STATE.act=2;
+        STATE.timeline=[];
+        window.FS.tree["/"].home.dedsec.incoming = { "tipoff.txt": window.FS.F(
+`FROM: 0rphan
+the broadcast worked — but Blend's already moving PROJECT HIVE to prod.
+found a loose thread: edge gateway at 10.66.0.1 (entry_gw).
+standard disclaimer: scan before you connect. not everything out there is what it looks like.`) };
+        Apps.renderEvidence(); Apps.renderTimeline(); Apps.renderMissions();
+        window.setStatus("// act one complete — PROJECT HIVE is already rolling. find Blend's real network.","mag");
+      };
+    } else {
+      oc.innerHTML=
+`<div class="c-mag glitch" style="font-size:20px;letter-spacing:3px">▶ PROJECT HIVE — ROLLOUT HALTED</div>
+
+<span class="c-green">Forty cities just watched the launch order hit every feed Blume
+owns. The exec roster is public. The backbone logs are public.
+PROJECT HIVE doesn't have a kill switch —</span> <span class="c-mag">but nobody's switching it on now.</span>
+
+<span class="c-amber">   REP EARNED: ${STATE.rep}
+   NETWORK BREACHED: ${STATE.net.breached.size} hosts
+   STATUS: ACT TWO COMPLETE</span>
+
+<span class="c-muted">"You didn't just leak a memo this time. You walked into their
+house and turned every light on at once. That's not hacking,
+${STATE.handle}. That's a statement."
+  — 0rphan</span>
+
+<span class="c-cyan">[ click anywhere to close · the network stays open — keep exploring ]</span>`;
+      ov.classList.remove("hidden");
+      window.GAME.addRep(800);
+      STATE.finished=true;
+      ov.onclick=()=>ov.classList.add("hidden");
+    }
   };
 })();

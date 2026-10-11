@@ -25,7 +25,8 @@
   }
 
   window.updatePrompt=function(){
-    const p=`<span class="c-mag">${window.STATE.handle}</span>@dedsec:<span class="c-cyan">${window.shortCwd()}</span>$`;
+    const host = window.STATE.net.currentHost==="home" ? "dedsec" : window.STATE.net.currentHost;
+    const p=`<span class="c-mag">${window.STATE.handle}</span>@${host}:<span class="c-cyan">${window.shortCwd()}</span>$`;
     document.getElementById("term-prompt").innerHTML=p;
   };
 

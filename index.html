@@ -102,6 +102,7 @@
       <span class="tb-sep">|</span>
       <span class="tb-item" data-app="terminal">[ terminal ]</span>
       <span class="tb-item" data-app="ctos">[ ctOS_scanner ]</span>
+      <span class="tb-item" data-app="network">[ network ]</span>
       <span class="tb-item" data-app="profiler">[ profiler ]</span>
       <span class="tb-item" data-app="missions">[ ops ]</span>
       <span class="tb-item" data-app="editor">[ exposé_studio ]</span>
@@ -137,6 +138,13 @@
         <div class="panel-head">ctOS 3.0 // CITY SURVEILLANCE GRID — UNAUTHORIZED ACCESS</div>
         <div id="ctos-grid" class="ctos-grid"></div>
         <div id="ctos-detail" class="ctos-detail">// select a node to intercept its datastream</div>
+      </div>
+
+      <!-- NETWORK MAP APP -->
+      <div id="app-network" class="app">
+        <div class="panel-head">NETWORK // BLUME CORPORATE INFRASTRUCTURE — LIVE PIVOT MAP</div>
+        <div id="net-graph" class="net-graph"></div>
+        <div id="net-detail" class="ctos-detail">// select a host to view its profile — or just read the wires</div>
       </div>
 
       <!-- PROFILER APP -->
@@ -185,6 +193,7 @@
   <audio id="expose-audio" src="Sound/dedsec.mp3" preload="none"></audio>
 
   <script src="js/fs.js"></script>
+  <script src="js/network.js"></script>
   <script src="js/missions.js"></script>
   <script src="js/apps.js"></script>
   <script src="js/commands.js"></script>

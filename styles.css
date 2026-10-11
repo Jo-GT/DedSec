@@ -146,6 +146,27 @@ body::after{
 .node.hacked .ns{color:var(--magenta)}
 .ctos-detail{margin-top:14px;border:1px dashed var(--line);padding:12px;white-space:pre-wrap;min-height:120px;font-size:13px}
 
+/* network map — hacknet-style pivot graph */
+.net-graph{position:relative;height:300px;border:1px solid var(--line);background:var(--bg2);overflow:hidden}
+.net-edges{position:absolute;inset:0;width:100%;height:100%}
+.net-edge{stroke:var(--line);stroke-width:2}
+.net-edge.active{stroke:var(--magenta);stroke-width:2.5;filter:drop-shadow(0 0 4px var(--magenta))}
+.net-node{
+  position:absolute;transform:translate(-50%,-50%);min-width:92px;text-align:center;
+  padding:6px 8px;border:1px solid var(--line);background:var(--bg);cursor:pointer;transition:.12s;
+}
+.net-node .nn-id{font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-family:var(--font-display)}
+.net-node .nn-ip{font-size:10px;color:var(--muted);margin-top:2px}
+.net-node.locked{opacity:.45;border-style:dashed}
+.net-node.reachable{border-color:var(--amber);box-shadow:0 0 10px rgba(255,207,61,.25)}
+.net-node.reachable .nn-id{color:var(--amber)}
+.net-node.breached{border-color:var(--green);box-shadow:0 0 12px rgba(198,255,58,.3)}
+.net-node.breached .nn-id{color:var(--green)}
+.net-node.here{outline:2px solid var(--cyan);outline-offset:2px}
+.net-node.honeypot-known{border-color:var(--red)}
+.net-node.honeypot-known .nn-id{color:var(--red)}
+.net-node.honeypot-known::after{content:"⚠";position:absolute;top:-8px;right:-6px;font-size:11px;color:var(--red)}
+
 /* profiler */
 .profiler-feed{display:flex;flex-direction:column;gap:8px}
 .pf-card{border:1px solid var(--line);padding:8px 10px;background:var(--bg2);display:flex;justify-content:space-between;gap:10px;align-items:center;animation:slidein .25s}
