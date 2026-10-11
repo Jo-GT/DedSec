@@ -63,6 +63,15 @@
       t.onclick=()=>window.Apps.show(t.dataset.app);
     });
     document.getElementById("render-btn").onclick=()=>window.renderExpose();
+    const ow=document.getElementById("objective-widget");
+    document.getElementById("ow-title").addEventListener("click",e=>{
+      if(e.target.closest(".ow-toggle")) return;
+      window.Apps.show("missions");
+    });
+    document.getElementById("ow-toggle").addEventListener("click",e=>{
+      e.stopPropagation();
+      ow.classList.toggle("collapsed");
+    });
     document.getElementById("tb-rep").textContent="REP: 0";
     window.initTerminal();
     window.Apps.renderMissions();

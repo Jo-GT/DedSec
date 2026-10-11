@@ -185,6 +185,34 @@ body::after{
 .render-btn:hover{background:var(--cyan);transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--purple)}
 .render-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--purple)}
 
+/* floating objective mini-window */
+.objective-widget{
+  position:fixed;right:16px;bottom:38px;width:230px;z-index:2000;
+  background:var(--bg2);border:2px solid var(--ink);
+  box-shadow:4px 4px 0 var(--purple-dim),0 0 24px rgba(0,0,0,.5);
+  font-size:12px;
+}
+.ow-title{
+  display:flex;align-items:center;gap:6px;padding:5px 6px;cursor:pointer;user-select:none;
+  background:linear-gradient(90deg,var(--purple),var(--magenta));
+}
+.ow-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.6s steps(1) infinite;flex:none}
+.ow-name{
+  flex:1;color:#fff;font-family:var(--font-display);letter-spacing:1px;
+  font-size:11px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ow-toggle{
+  flex:none;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.6);color:#fff;
+  font-family:var(--font);line-height:1;width:18px;height:16px;cursor:pointer;padding:0;
+}
+.ow-toggle:hover{background:rgba(0,0,0,.6)}
+.ow-body{padding:10px;max-height:220px;overflow:hidden;transition:max-height .15s,padding .15s}
+.objective-widget.collapsed .ow-body{max-height:0;padding:0 10px}
+.ow-op-title{color:var(--green);font-family:var(--font-display);letter-spacing:.5px;text-transform:uppercase;font-size:13px;margin-bottom:4px}
+.ow-progress{color:var(--amber);font-size:11px;margin-bottom:6px}
+.ow-step{color:var(--fg);line-height:1.4}
+.ow-done{color:var(--muted);font-size:11px;margin-top:2px}
+
 /* statusbar */
 .statusbar{display:flex;gap:16px;padding:5px 12px;background:var(--ink);border-top:1px solid var(--line);font-size:12px}
 #sb-user{color:var(--green)}

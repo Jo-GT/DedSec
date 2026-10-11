@@ -161,6 +161,26 @@
           <div class="m-reward">reward: +${op.reward} rep</div>`;
         list.appendChild(el);
       });
+      this.renderObjective();
+    },
+
+    renderObjective(){
+      const body=document.getElementById("ow-body");
+      if(!body) return;
+      const active=window.OPS.find(op=>{
+        const done=STATE.opProgress[op.id]||new Set();
+        return done.size<op.steps.length;
+      });
+      if(!active){
+        body.innerHTML=`<div class="ow-op-title">ALL OPS COMPLETE</div>
+          <div class="ow-done">// no active objectives — broadcast when ready</div>`;
+        return;
+      }
+      const done=STATE.opProgress[active.id]||new Set();
+      const next=active.steps.find(s=>!done.has(s.id));
+      body.innerHTML=`<div class="ow-op-title">${active.title}</div>
+        <div class="ow-progress">${done.size}/${active.steps.length} steps · +${active.reward} rep</div>
+        <div class="ow-step">&gt; ${next?next.text:"—"}</div>`;
     },
 
     renderEvidence(){
