@@ -193,9 +193,11 @@ body::after{
   font-size:12px;
 }
 .ow-title{
-  display:flex;align-items:center;gap:6px;padding:5px 6px;cursor:pointer;user-select:none;
+  display:flex;align-items:center;gap:6px;padding:5px 6px;cursor:grab;user-select:none;touch-action:none;
   background:linear-gradient(90deg,var(--purple),var(--magenta));
 }
+.ow-title:active{cursor:grabbing}
+.objective-widget.dragging{opacity:.88;box-shadow:6px 6px 0 var(--purple-dim),0 0 30px rgba(0,0,0,.6)}
 .ow-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.6s steps(1) infinite;flex:none}
 .ow-name{
   flex:1;color:#fff;font-family:var(--font-display);letter-spacing:1px;

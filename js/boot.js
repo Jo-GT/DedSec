@@ -64,13 +64,45 @@
     });
     document.getElementById("render-btn").onclick=()=>window.renderExpose();
     const ow=document.getElementById("objective-widget");
-    document.getElementById("ow-title").addEventListener("click",e=>{
-      if(e.target.closest(".ow-toggle")) return;
-      window.Apps.show("missions");
-    });
+    const owTitle=document.getElementById("ow-title");
     document.getElementById("ow-toggle").addEventListener("click",e=>{
       e.stopPropagation();
       ow.classList.toggle("collapsed");
+    });
+
+    // draggable title bar — classic movable mini-window
+    let dragging=false, dragged=false, startX=0, startY=0, startLeft=0, startTop=0;
+    owTitle.addEventListener("pointerdown",e=>{
+      if(e.target.closest(".ow-toggle")) return;
+      dragging=true; dragged=false;
+      const rect=ow.getBoundingClientRect();
+      startX=e.clientX; startY=e.clientY;
+      startLeft=rect.left; startTop=rect.top;
+      ow.style.left=startLeft+"px";
+      ow.style.top=startTop+"px";
+      ow.style.right="auto";
+      ow.style.bottom="auto";
+      owTitle.setPointerCapture(e.pointerId);
+      ow.classList.add("dragging");
+    });
+    owTitle.addEventListener("pointermove",e=>{
+      if(!dragging) return;
+      const dx=e.clientX-startX, dy=e.clientY-startY;
+      if(Math.abs(dx)>3||Math.abs(dy)>3) dragged=true;
+      const maxLeft=window.innerWidth-ow.offsetWidth;
+      const maxTop=window.innerHeight-ow.offsetHeight;
+      ow.style.left=Math.min(Math.max(0,startLeft+dx),maxLeft)+"px";
+      ow.style.top=Math.min(Math.max(0,startTop+dy),maxTop)+"px";
+    });
+    owTitle.addEventListener("pointerup",e=>{
+      dragging=false;
+      owTitle.releasePointerCapture(e.pointerId);
+      ow.classList.remove("dragging");
+    });
+    owTitle.addEventListener("click",e=>{
+      if(e.target.closest(".ow-toggle")) return;
+      if(dragged){ dragged=false; return; }
+      window.Apps.show("missions");
     });
     document.getElementById("tb-rep").textContent="REP: 0";
     window.initTerminal();
