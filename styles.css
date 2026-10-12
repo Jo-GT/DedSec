@@ -65,6 +65,12 @@ body::after{
 
 /* ---------- LOGIN ---------- */
 #login{display:flex;align-items:center;justify-content:center;background:var(--bg)}
+#login::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url("GIFs-Assets/dedskullspin.gif") repeat;
+  background-size:110px 110px;
+  opacity:.32;
+}
 .login-box{
   padding:34px 42px;background:linear-gradient(165deg,#170b28,#0a0613);
   width:min(620px,92vw);transform:rotate(-.6deg);
@@ -241,8 +247,17 @@ body::after{
   display:block;max-width:200px;margin:30px auto 0;position:relative;z-index:1;
   border-radius:6px;filter:drop-shadow(0 0 20px rgba(198,255,58,.3));
 }
-.login-hero{
-  display:block;width:100%;border-radius:4px;margin-bottom:14px;border:1px solid var(--purple-dim);
+#logoreveal{
+  background:#000;display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.logo-reveal-img{
+  width:100%;height:100%;object-fit:cover;
+  filter:drop-shadow(0 0 60px rgba(155,47,224,.45));
+}
+.logo-reveal-hint{
+  position:absolute;bottom:28px;left:0;right:0;text-align:center;
+  color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  animation:flick 3s infinite;
 }
 .login-accent{
   position:absolute;left:4%;bottom:5%;width:130px;border-radius:8px;opacity:.9;z-index:1;
@@ -290,7 +305,6 @@ body::after{
 .skull-bg{position:absolute;pointer-events:none;opacity:.3;z-index:0;
   filter:drop-shadow(0 0 25px rgba(155,47,224,.25))}
 .sk-m{mix-blend-mode:screen}
-.skull-login{width:380px;height:456px;top:50%;left:50%;transform:translate(-50%,-52%);opacity:.24}
 .login-box{position:relative;z-index:1}
 .boot-log{position:relative;z-index:1}
 .skull-boot{width:210px;height:252px;right:16px;bottom:0;opacity:.16}

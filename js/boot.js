@@ -85,6 +85,21 @@
     }
   }
 
+  function showLogoReveal(done){
+    document.getElementById("boot").classList.add("hidden");
+    const lr=document.getElementById("logoreveal");
+    lr.classList.remove("hidden");
+    let advanced=false;
+    const advance=()=>{
+      if(advanced) return;
+      advanced=true;
+      lr.classList.add("hidden");
+      done();
+    };
+    lr.addEventListener("click",advance,{once:true});
+    setTimeout(advance,2600);
+  }
+
   function showLogin(){
     document.getElementById("boot").classList.add("hidden");
     const lg=document.getElementById("login");
@@ -129,6 +144,6 @@
 
   window.addEventListener("DOMContentLoaded",()=>{
     wireMiniWindow("music-widget","music-title","music-toggle",null);
-    typeBoot(showLogin);
+    typeBoot(()=>showLogoReveal(showLogin));
   });
 })();
