@@ -69,7 +69,7 @@ body::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:url("GIFs-Assets/dedskullspin.gif") repeat;
   background-size:110px 110px;
-  opacity:.32;
+  opacity:.6;
 }
 .login-box{
   padding:34px 42px;background:linear-gradient(165deg,#170b28,#0a0613);
@@ -188,7 +188,13 @@ body::after{
 .net-node.honeypot-known::after{content:"⚠";position:absolute;top:-8px;right:-6px;font-size:11px;color:var(--red)}
 
 /* profiler */
-.profiler-feed{display:flex;flex-direction:column;gap:8px}
+#app-profiler{
+  background:
+    linear-gradient(rgba(10,6,19,.6),rgba(10,6,19,.6)),
+    url("GIFs-Assets/dedsecphoneclick.gif") repeat;
+  background-size:auto, 120px auto;
+}
+.profiler-feed{display:flex;flex-direction:column;gap:8px;position:relative;z-index:1}
 .pf-card{border:1px solid var(--line);padding:8px 10px;background:var(--bg2);display:flex;justify-content:space-between;gap:10px;align-items:center;animation:slidein .25s}
 .pf-name{color:var(--cyan)}
 .pf-tag{color:var(--muted);font-size:12px}
