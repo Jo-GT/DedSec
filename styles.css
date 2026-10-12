@@ -80,8 +80,22 @@ body::after{
   box-shadow:0 0 0 1px var(--purple-dim),8px 8px 0 var(--purple-dim),14px 14px 0 rgba(0,0,0,.55),
     0 0 40px rgba(155,47,224,.25) inset;
 }
-.logo{
-  color:var(--fg);margin:0 0 6px;font-size:12px;line-height:1.05;text-align:center;
+.login-logo{display:flex;flex-direction:column;align-items:center;margin:0 0 10px}
+.login-skull{
+  width:96px;height:auto;display:block;
+  filter:drop-shadow(0 0 14px rgba(255,47,146,.45));
+  animation:skullglitch 4s infinite steps(1);
+}
+.login-skull .ls-m{mix-blend-mode:screen}
+@keyframes skullglitch{
+  0%,88%,100%{transform:translate(0,0)}
+  90%{transform:translate(-2px,1px)}
+  93%{transform:translate(2px,-1px)}
+  96%{transform:translate(-1px,0)}
+}
+.login-wordmark{
+  margin-top:10px;font-family:var(--font-display);font-size:34px;letter-spacing:7px;
+  color:var(--fg);text-transform:uppercase;line-height:1;
   text-shadow:2px 0 var(--magenta),-2px 0 var(--cyan);
   animation:logoglitch 4s infinite steps(1);
 }

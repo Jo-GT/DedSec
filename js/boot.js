@@ -2,26 +2,6 @@
    DedSec // NetHack_OS  —  boot + login + app wiring
    ============================================================ */
 (function(){
-  // original glitch-skull mark (not any real-world logo)
-  const LOGO =
-`╔═══════════════════════╗
-║        ███████        ║
-║      ███████████      ║
-║     █████████████     ║
-║    ███████████████    ║
-║    ██    ███    ██    ║
-║    ██    ███    ██    ║
-║    ██    ███    ██    ║
-║    ███   ███   ███    ║
-║    █████ ███ █████    ║
-║    ██████ █ ██████    ║
-║     █████████████     ║
-║      ███████████      ║
-║      █ █ █ █ █ █      ║
-║                       ║
-║      D E D S E C      ║
-╚═══════════════════════╝`;
-
   const BOOT=[
     "NetHack_OS bootloader v3.0  [LIBERATED BUILD]",
     "> mounting /glitch ................ ok",
@@ -113,7 +93,6 @@
     document.getElementById("boot").classList.add("hidden");
     const lg=document.getElementById("login");
     lg.classList.remove("hidden");
-    document.getElementById("login-logo").textContent=LOGO;
     const h=document.getElementById("login-handle");
     h.focus();
     h.addEventListener("keydown",e=>{
