@@ -317,7 +317,8 @@
 
     if(STATE.act===1){
       oc.innerHTML=
-`<div class="c-mag glitch" style="font-size:20px;letter-spacing:3px">▶ BROADCAST LIVE — ctOS COMPROMISED</div>
+`<img class="expose-gif" src="GIFs-Assets/exposespeaker.gif" alt="">
+<div class="c-mag glitch" style="font-size:20px;letter-spacing:3px">▶ BROADCAST LIVE — ctOS COMPROMISED</div>
 
 <span class="c-green">Every smart sign, feed, and phone in the city just lit up with
 your exposé. 14,882,301 people are seeing PROJECT NUDGE for the
@@ -354,7 +355,8 @@ standard disclaimer: scan before you connect. not everything out there is what i
       };
     } else {
       oc.innerHTML=
-`<div class="c-mag glitch" style="font-size:20px;letter-spacing:3px">▶ PROJECT HIVE — ROLLOUT HALTED</div>
+`<img class="expose-gif" src="GIFs-Assets/exposespeaker.gif" alt="">
+<div class="c-mag glitch" style="font-size:20px;letter-spacing:3px">▶ PROJECT HIVE — ROLLOUT HALTED</div>
 
 <span class="c-green">Forty cities just watched the launch order hit every feed Blume
 owns. The exec roster is public. The backbone logs are public.

@@ -311,6 +311,8 @@ body::after{
 .skull-overlay{width:300px;height:360px;top:-28px;right:-22px;opacity:.26;
   animation:skullpulse 2.4s ease-in-out infinite}
 #overlay-content{position:relative;z-index:1}
+.expose-gif{display:block;width:100%;max-width:340px;margin:0 auto 20px;border:2px solid var(--magenta);
+  box-shadow:0 0 24px rgba(255,47,146,.4);image-rendering:pixelated}
 .tb-skull{width:16px;height:18px;display:inline-block;vertical-align:-3px;margin-right:6px;opacity:.9}
 @keyframes skullpulse{
   0%,100%{opacity:.2;filter:drop-shadow(0 0 18px rgba(47,232,255,.3))}
