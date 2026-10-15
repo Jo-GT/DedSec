@@ -2,6 +2,10 @@
 
 *"DedSec has given you the truth. Do what you will."*
 
+<p align="center">
+  <img src="GIFs-Assets/dedskullspin.gif" alt="DedSec skull" width="160">
+</p>
+
 A fan-made hacker terminal **sim** in the DedSec spirit. You're a new DedSec operative —
 dig up leads, crack ctOS surveillance nodes, flag dirty citizens, and run ops that build
 to one big **exposé** — broadcast the truth, wake up the city.
@@ -24,6 +28,10 @@ python -m http.server 8080   # then visit http://localhost:8080
 ```
 
 Boot → pick a handle → you're in.
+
+<p align="center">
+  <img src="GIFs-Assets/dedseclogoloadupremenu.gif" alt="Boot sequence" width="420">
+</p>
 
 ## How it works
 
@@ -52,6 +60,15 @@ Boot → pick a handle → you're in.
 9. **EYES IN THE WALLS** – pivot from the VPN proxy and steal the camera backbone's key.
 10. **SALTED GROUND** – scan before you leap — Blend seeds its network with traps.
 11. **KILL THE HIVE** – assemble Act Two's evidence and broadcast before the national rollout goes live.
+
+## Screens
+
+<p align="center">
+  <img src="GIFs-Assets/dedsecjoinus.gif" alt="Join us" width="200">
+  <img src="GIFs-Assets/dedsecphoneclick.gif" alt="ctOS scanner" width="200">
+  <img src="GIFs-Assets/exposespeaker.gif" alt="Exposé broadcast" width="200">
+  <img src="GIFs-Assets/dedsec%20takeover.gif" alt="DedSec takeover" width="200">
+</p>
 
 ## Project layout
 
