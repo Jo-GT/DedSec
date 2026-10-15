@@ -10,6 +10,10 @@
     "> scrubbing ctOS telemetry ........ ok",
     "> loading DedSec cell keys ........ ok",
     "> checking for tails .............. clear",
+    "> decrypting local cache .......... ok",
+    "> verifying cell handshake ........ ok",
+    "> syncing ctOS blind spots ........ ok",
+    "> arming dead-man's switch ........ ok",
     "",
     "   this machine does not exist.",
     "   neither do you.",
@@ -21,7 +25,7 @@
     const el=document.getElementById("boot-log");
     let i=0;
     (function next(){
-      if(i>=BOOT.length){ setTimeout(done,500); return; }
+      if(i>=BOOT.length){ setTimeout(done,1200); return; }
       el.textContent += BOOT[i] + "\n";
       i++;
       setTimeout(next, 130+Math.random()*120);
@@ -78,15 +82,10 @@
     document.getElementById("boot").classList.add("hidden");
     const lr=document.getElementById("logoreveal");
     lr.classList.remove("hidden");
-    let advanced=false;
-    const advance=()=>{
-      if(advanced) return;
-      advanced=true;
+    setTimeout(()=>{
       lr.classList.add("hidden");
       done();
-    };
-    lr.addEventListener("click",advance,{once:true});
-    setTimeout(advance,2600);
+    },3400);
   }
 
   function showLogin(){
