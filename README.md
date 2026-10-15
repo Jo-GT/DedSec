@@ -1,16 +1,22 @@
 # DedSec // NetHack_OS
 
-A fan-made hacker-collective terminal **game/simulation** inspired by the DedSec aesthetic.
-You play a new recruit on DedSec's custom member OS: a simulated Linux terminal, a fake
-filesystem full of leads, a ctOS surveillance scanner, a citizen profiler, and a campaign
-of operations that build toward broadcasting an **exposé** that wakes the city up to ctOS.
+*"DedSec has given you the truth. Do what you will."*
 
-> All art, text, and code here are original. This is an unofficial fan tribute — not
-> affiliated with or endorsed by Ubisoft, and it does not use their actual logos/assets.
+A fan-made hacker terminal **sim** in the DedSec spirit. You're a new DedSec operative —
+dig up leads, crack ctOS surveillance nodes, flag dirty citizens, and run ops that build
+to one big **exposé** — broadcast the truth, wake up the city.
+
+## Status: WIP
+
+This is an active work in progress. Icons are placeholders and getting reworked, more
+ops/acts are coming, and sound design (SFX, more tracks) is still being built out. Expect
+things to shift around.
 
 ## Play
 
-Just open `index.html` in any modern browser — no build step, no server needed.
+**[Play it live](https://jo-gt.github.io/DedSec/)** — hosted on GitHub Pages, no install needed.
+
+Or run it locally: just open `index.html` in any modern browser — no build step, no server needed.
 
 ```
 # optional: serve it locally
@@ -26,17 +32,26 @@ Boot → pick a handle → you're in.
   (↑/↓ for command history)
 - **[ ctOS_scanner ]** — click surveillance nodes to intercept their datastreams.
 - **[ profiler ]** — live-mined citizen feed; flag one as evidence.
-- **[ ops ]** — your mission board. 5 operations, from onboarding to *GO LOUD*.
+- **[ ops ]** — your mission board. Two acts, 11 operations, from onboarding to *KILL THE HIVE*.
 - **[ exposé_studio ]** — drag your 3 evidence clips onto the timeline, then RENDER
   to broadcast the leak citywide and finish the campaign.
 
 ## The campaign (no spoilers, mostly)
 
+**Act One**
 1. **WAKE UP** – learn the deck.
 2. **GHOST THE GRID** – recon, recover creds (`cat .secrets/keys.txt`), hack a node.
 3. **PAPER TRAIL** – `decrypt` Blend's internal memo.
 4. **THE NUDGE** – uncover PROJECT NUDGE and pull the dataset.
 5. **GO LOUD** – assemble everything and broadcast the exposé.
+
+**Act Two**
+6. **AFTERSHOCK** – the exposé landed, but Blend's already rolling out PROJECT HIVE. Find their real network.
+7. **TWO ROADS** – breach the mail relay or the contractor VPN proxy — or both.
+8. **HR SHAKEDOWN** – pivot from the mail relay and pull personnel records.
+9. **EYES IN THE WALLS** – pivot from the VPN proxy and steal the camera backbone's key.
+10. **SALTED GROUND** – scan before you leap — Blend seeds its network with traps.
+11. **KILL THE HIVE** – assemble Act Two's evidence and broadcast before the national rollout goes live.
 
 ## Project layout
 
