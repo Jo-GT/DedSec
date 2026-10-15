@@ -104,7 +104,15 @@
     });
   }
 
+  function stopIntroSound(){
+    const a=document.getElementById("intro-sound");
+    a.pause();
+    a.currentTime=0;
+  }
+
   function startOS(){
+    stopIntroSound();
+    document.getElementById("music-widget").classList.remove("hidden");
     document.getElementById("login").classList.add("hidden");
     document.getElementById("os").classList.remove("hidden");
     // topbar nav
@@ -130,8 +138,19 @@
     },1000);
   }
 
+  function playIntroSound(){
+    const a=document.getElementById("intro-sound");
+    const attempt=()=>a.play().catch(()=>{
+      const retry=()=>{ a.play().catch(()=>{}); };
+      document.addEventListener("pointerdown",retry,{once:true});
+      document.addEventListener("keydown",retry,{once:true});
+    });
+    attempt();
+  }
+
   window.addEventListener("DOMContentLoaded",()=>{
     wireMiniWindow("music-widget","music-title","music-toggle",null);
+    playIntroSound();
     typeBoot(()=>showLogoReveal(showLogin));
   });
 })();

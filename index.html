@@ -9,8 +9,11 @@
 <body>
   <div class="shard-top"></div>
 
-  <!-- FLOATING MINI-WINDOW: background music, visible across boot/login/OS -->
-  <div id="music-widget" class="objective-widget music-widget">
+  <!-- intro sound, plays through boot/logo reveal/login, stops once you're in the OS -->
+  <audio id="intro-sound" src="Sound/dedsec-intro.mp3" preload="auto"></audio>
+
+  <!-- FLOATING MINI-WINDOW: background music, revealed once you're in the OS -->
+  <div id="music-widget" class="objective-widget music-widget hidden">
     <div class="ow-title" id="music-title" title="drag to move">
       <span class="ow-dot"></span>
       <span class="ow-name">// SIGNAL_FEED</span>
